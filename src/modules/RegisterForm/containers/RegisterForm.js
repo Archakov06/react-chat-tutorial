@@ -1,26 +1,18 @@
 import { withFormik } from "formik";
 import RegisterForm from "../components/RegisterForm";
+import validateForm from "utils/validate";
 
 export default withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: () => ({
+    email: "",
+    fullname: "",
+    password: "",
+    password2: ""
+  }),
   validate: values => {
     let errors = {};
-
-    if (!values.email) {
-      errors.email = "Required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = "Invalid email address";
-    }
-
-    if (!values.password) {
-      errors.password = "Введите пароль";
-    } else if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(values.password)
-    ) {
-      errors.password = "Слишком лёгкий пароль";
-    }
-
+    validateForm({ isAuth: false, values, errors });
     return errors;
   },
   handleSubmit: (values, { setSubmitting }) => {
