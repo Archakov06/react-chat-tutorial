@@ -1,6 +1,12 @@
 @import "~reset-css";
 @import "~antd/dist/antd.css";
 
+@import "layouts/chat";
+
+body {
+  background-color: #f4f7fd;
+}
+
 body,
 html,
 #root,
@@ -11,4 +17,23 @@ html,
     "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
+}
+
+* {
+  outline: none;
+}
+
+.ant-btn-circle {
+  border: 0;
+  box-shadow: none;
+  color: #202020 !important;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:after {
+    display: none;
+  }
 }

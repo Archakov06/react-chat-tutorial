@@ -1,0 +1,97 @@
+.chat {
+  display: flex;
+  height: 100%;
+  background-color: #fff;
+  width: 1140px;
+  margin: 0 auto;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.04204);
+
+  &__sidebar {
+    width: 320px;
+    border-right: 1px solid #f7f7f7;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 21px;
+      height: 58px;
+      border-bottom: 1px solid #f7f7f7;
+      margin-bottom: 20px;
+      align-items: center;
+
+      .ant-btn-circle {
+        position: relative;
+        left: 5px;
+      }
+
+      & > div {
+        i {
+          display: inline-block;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    &-dialogs {
+      height: calc(100% - 136px);
+
+      .dialogs {
+        height: 100%;
+        overflow: auto;
+        &__item {
+          padding: 10px 20px;
+          margin-bottom: 0;
+          cursor: pointer;
+
+          &.active,
+          &:hover {
+            background-color: #f3f7ff;
+          }
+        }
+      }
+    }
+  }
+
+  &__dialog {
+    flex: 1;
+    position: relative;
+
+    .ant-empty {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #f7f7f7;
+
+      .ant-btn-circle {
+        i {
+          font-size: 22px;
+        }
+      }
+
+      &-center {
+        text-align: center;
+      }
+
+      &-username {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+    }
+
+    &-messages {
+      padding: 20px;
+      padding-bottom: 0;
+      overflow: auto;
+      height: calc(100% - 138px);
+    }
+  }
+}
