@@ -17,6 +17,16 @@
     display: flex;
     margin-bottom: 20px;
 
+    &:hover {
+      background-color: #f3f7ff;
+    }
+
+    &--selected,
+    &--selected:hover {
+      background-color: #1890ff;
+      color: #fff !important;
+    }
+
     &-avatar {
       position: relative;
       flex: 0 0 40px;
@@ -67,7 +77,7 @@
       &-bottom {
         position: relative;
         p {
-          opacity: 0.5;
+          opacity: 0.7;
           text-overflow: ellipsis;
           overflow: hidden;
           width: 220px;
