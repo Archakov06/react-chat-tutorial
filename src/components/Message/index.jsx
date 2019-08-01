@@ -115,11 +115,7 @@ const Message = ({
         <div className="message__info">
           {(audio || text || isTyping) && (
             <div className="message__bubble">
-              {text && (
-                <p className="message__text">
-                  <Emoji emoji=":santa::skin-tone-3:" set="apple" size={16} />
-                </p>
-              )}
+              {text && <p className="message__text">{text}</p>}
               {isTyping && (
                 <div className="message__typing">
                   <span />

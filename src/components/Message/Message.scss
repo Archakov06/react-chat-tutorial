@@ -116,6 +116,11 @@
     display: flex;
     flex-direction: row-reverse;
 
+    .avatar {
+      margin-left: 13px;
+      margin-right: 0;
+    }
+
     #{$self}__content {
       margin-bottom: 15px;
       flex-direction: row-reverse;
