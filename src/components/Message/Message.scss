@@ -8,6 +8,12 @@
     max-width: 440px;
     margin-bottom: 20px;
     position: relative;
+
+    &:hover {
+      #{$self}__icon-actions {
+        display: block;
+      }
+    }
   }
 
   &__avatar {
@@ -56,13 +62,22 @@
     }
   }
 
-  &__icon-readed {
-    position: absolute;
-    bottom: 22px;
-    left: -25px;
+  &__icon {
+    &-readed {
+      position: absolute;
+      bottom: 22px;
+      left: -25px;
 
-    &--no {
-      left: -20px;
+      &--no {
+        left: -20px;
+      }
+    }
+    &-actions {
+      display: none;
+      transform: rotate(90deg);
+      position: absolute;
+      left: -31px;
+      top: -5px;
     }
   }
 

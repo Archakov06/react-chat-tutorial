@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Emoji } from "emoji-mart";
+import { Popover, Button } from "antd";
 
 import { convertCurrentTime } from "utils/helpers";
 
@@ -96,7 +97,8 @@ const Message = ({
   isMe,
   isReaded,
   attachments,
-  isTyping
+  isTyping,
+  onRemoveMessage
 }) => {
   return (
     <div
@@ -109,6 +111,18 @@ const Message = ({
     >
       <div className="message__content">
         <IconReaded isMe={isMe} isReaded={isReaded} />
+        <Popover
+          content={
+            <div>
+              <Button onClick={onRemoveMessage}>Удалить сообщение</Button>
+            </div>
+          }
+          trigger="click"
+        >
+          <div className="message__icon-actions">
+            <Button type="link" shape="circle" icon="ellipsis" />
+          </div>
+        </Popover>
         <div className="message__avatar">
           <Avatar user={user} />
         </div>
