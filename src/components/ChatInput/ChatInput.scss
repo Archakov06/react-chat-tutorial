@@ -1,14 +1,13 @@
 .chat-input {
-  display: flex;
   margin: 20px;
   position: relative;
 
+  & > div:first-of-type {
+    display: flex;
+  }
+
   &__smile-btn {
     margin-right: 15px;
-
-    i.anticon {
-      margin-top: 11px;
-    }
   }
 
   .ant-btn-circle {
@@ -22,6 +21,54 @@
     position: absolute;
     bottom: 50px;
     z-index: 1;
+  }
+
+  &__record-status {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    color: #f56b6b;
+
+    .stop-recording {
+      margin-left: 5px;
+      i {
+        svg {
+          position: relative;
+          top: -1px;
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+
+    &-bubble {
+      display: inline-block;
+      position: relative;
+      height: 10px;
+      width: 10px;
+      background-color: #f56b6b;
+      border-radius: 30px;
+      margin-right: 8px;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 10px;
+        width: 10px;
+        background-color: rgba(245, 107, 107, 0.5);
+        border-radius: 30px;
+        animation: wave-animation 1s ease-in-out infinite;
+        transition: transform 0.15s ease-in-out;
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__attachments {
+    padding-top: 10px;
+    padding-left: 47px;
   }
 
   &__actions {
@@ -50,5 +97,17 @@
     &:focus {
       box-shadow: none;
     }
+  }
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }

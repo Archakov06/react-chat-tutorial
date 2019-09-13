@@ -5,13 +5,25 @@ import isToday from "date-fns/is_today";
 import { Link } from "react-router-dom";
 
 import { IconReaded, Avatar } from "../";
+import { isAudio } from "utils/helpers";
 
-const getMessageTime = created_at => {
-  if (isToday(created_at)) {
-    return format(created_at, "HH:mm");
+const getMessageTime = createdAt => {
+  if (isToday(createdAt)) {
+    return format(createdAt, "HH:mm");
   } else {
-    return format(created_at, "DD.MM.YYYY");
+    return format(createdAt, "DD.MM.YYYY");
   }
+};
+
+const renderLastMessage = (message, userId) => {
+  let text = "";
+  if (!message.text && message.attachments.length) {
+    text = "прикрепленный файл";
+  } else {
+    text = message.text;
+  }
+
+  return `${message.user._id === userId ? "Вы: " : ""}${text}`;
 };
 
 const DialogItem = ({
@@ -21,28 +33,28 @@ const DialogItem = ({
   text,
   isMe,
   currentDialogId,
-  onSelect,
-  lastMessage
+  partner,
+  lastMessage,
+  userId
 }) => (
   <Link to={`/dialog/${_id}`}>
     <div
       className={classNames("dialogs__item", {
-        "dialogs__item--online": lastMessage.user.isOnline,
+        "dialogs__item--online": partner.isOnline,
         "dialogs__item--selected": currentDialogId === _id
       })}
-      onClick={onSelect.bind(this, _id)}
     >
       <div className="dialogs__item-avatar">
-        <Avatar user={lastMessage.user} />
+        <Avatar user={partner} />
       </div>
       <div className="dialogs__item-info">
         <div className="dialogs__item-info-top">
-          <b>{lastMessage.user.fullname}</b>
-          <span>{getMessageTime(lastMessage.created_at)}</span>
+          <b>{partner.fullname}</b>
+          <span>{getMessageTime(lastMessage.createdAt)}</span>
         </div>
         <div className="dialogs__item-info-bottom">
-          <p>{lastMessage.text}</p>
-          {isMe && <IconReaded isMe={true} isReaded={false} />}
+          <p>{renderLastMessage(lastMessage, userId)}</p>
+          {isMe && <IconReaded isMe={isMe} isReaded={lastMessage.readed} />}
           {lastMessage.undread > 0 && (
             <div className="dialogs__item-info-bottom-count">
               {lastMessage.undread > 9 ? "+9" : lastMessage.undread}

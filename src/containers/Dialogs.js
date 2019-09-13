@@ -6,13 +6,7 @@ import socket from "core/socket";
 
 import { Dialogs as BaseDialogs } from "components";
 
-const Dialogs = ({
-  fetchDialogs,
-  currentDialogId,
-  setCurrentDialogId,
-  items,
-  userId
-}) => {
+const Dialogs = ({ fetchDialogs, currentDialogId, items, userId }) => {
   const [inputValue, setValue] = useState("");
   const [filtred, setFiltredItems] = useState(Array.from(items));
 
@@ -29,10 +23,6 @@ const Dialogs = ({
     setValue(value);
   };
 
-  const onNewDialog = () => {
-    fetchDialogs();
-  };
-
   window.fetchDialogs = fetchDialogs;
 
   useEffect(() => {
@@ -43,14 +33,13 @@ const Dialogs = ({
 
   useEffect(() => {
     fetchDialogs();
-    // if (!items.length) {
-    //   fetchDialogs();
-    // } else {
-    //   setFiltredItems(items);
-    // }
 
-    socket.on("SERVER:DIALOG_CREATED", onNewDialog);
-    return () => socket.removeListener("SERVER:DIALOG_CREATED", onNewDialog);
+    socket.on("SERVER:DIALOG_CREATED", fetchDialogs);
+    socket.on("SERVER:NEW_MESSAGE", fetchDialogs);
+    return () => {
+      socket.removeListener("SERVER:DIALOG_CREATED", fetchDialogs);
+      socket.removeListener("SERVER:NEW_MESSAGE", fetchDialogs);
+    };
   }, []);
 
   return (
@@ -59,7 +48,6 @@ const Dialogs = ({
       items={filtred}
       onSearch={onChangeInput}
       inputValue={inputValue}
-      onSelectDialog={setCurrentDialogId}
       currentDialogId={currentDialogId}
     />
   );

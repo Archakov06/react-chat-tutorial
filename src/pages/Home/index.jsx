@@ -1,28 +1,43 @@
-import React from "react";
-import { Button } from "antd";
+import React, { useEffect } from "react";
+import { withRouter } from "react-router";
 import { Messages, ChatInput, Status, Sidebar } from "containers";
+import { connect } from "react-redux";
 
 import "./Home.scss";
 
-const Home = () => (
-  <section className="home">
-    <div className="chat">
-      <Sidebar />
-      <div className="chat__dialog">
-        <div className="chat__dialog-header">
-          <div />
-          <Status online />
-          <Button type="link" shape="circle" icon="ellipsis" />
-        </div>
-        <div className="chat__dialog-messages">
-          <Messages />
-        </div>
-        <div className="chat__dialog-input">
-          <ChatInput />
-        </div>
-      </div>
-    </div>
-  </section>
-);
+import { dialogsActions } from "redux/actions";
 
-export default Home;
+// TODO: Сделать typing... (что человек пишет в диалоге)
+
+const Home = props => {
+  const { setCurrentDialogId, user } = props;
+  useEffect(() => {
+    const { pathname } = props.location;
+    const dialogId = pathname.split("/").pop();
+    setCurrentDialogId(dialogId);
+  }, [props.location.pathname]);
+
+  return (
+    <section className="home">
+      <div className="chat">
+        <Sidebar />
+        {user && (
+          <div className="chat__dialog">
+            <Status />
+            <Messages />
+            <div className="chat__dialog-input">
+              <ChatInput />
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default withRouter(
+  connect(
+    ({ user }) => ({ user: user.data }),
+    dialogsActions
+  )(Home)
+);
