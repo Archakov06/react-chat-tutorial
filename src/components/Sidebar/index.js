@@ -1,8 +1,8 @@
-import React from "react";
-import { Icon, Button, Modal, Select, Input, Form } from "antd";
-import { Dialogs } from "containers";
+import React from 'react';
+import { Icon, Button, Modal, Select, Input, Form } from 'antd';
+import { Dialogs } from 'containers';
 
-import "./Sidebar.scss";
+import './Sidebar.scss';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -21,11 +21,9 @@ const Sidebar = ({
   onChangeInput,
   onSelectUser,
   onChangeTextArea,
-  onModalOk
+  onModalOk,
 }) => {
-  const options = users.map(user => (
-    <Option key={user._id}>{user.fullname}</Option>
-  ));
+  const options = users.map(user => <Option key={user._id}>{user.fullname}</Option>);
 
   return (
     <div className="chat__sidebar">
@@ -43,6 +41,7 @@ const Sidebar = ({
       <Modal
         title="Создать диалог"
         visible={visible}
+        onCancel={onClose}
         footer={[
           <Button key="back" onClick={onClose}>
             Закрыть
@@ -52,12 +51,10 @@ const Sidebar = ({
             key="submit"
             type="primary"
             loading={isLoading}
-            onClick={onModalOk}
-          >
+            onClick={onModalOk}>
             Создать
-          </Button>
-        ]}
-      >
+          </Button>,
+        ]}>
         <Form className="add-dialog-form">
           <Form.Item label="Введите имя пользователя или E-Mail">
             <Select
@@ -66,13 +63,12 @@ const Sidebar = ({
               onChange={onChangeInput}
               onSelect={onSelectUser}
               notFoundContent={null}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               defaultActiveFirstOption={false}
               showArrow={false}
               filterOption={false}
               placeholder="Введите имя пользователя или почту"
-              showSearch
-            >
+              showSearch>
               {options}
             </Select>
           </Form.Item>
@@ -92,7 +88,7 @@ const Sidebar = ({
 };
 
 Sidebar.defaultProps = {
-  users: []
+  users: [],
 };
 
 export default Sidebar;

@@ -1,12 +1,12 @@
-import React from "react";
-import { Modal } from "antd";
-import PropTypes from "prop-types";
-import { Empty, Spin } from "antd";
-import classNames from "classnames";
+import React from 'react';
+import { Modal } from 'antd';
+import PropTypes from 'prop-types';
+import { Empty, Spin } from 'antd';
+import classNames from 'classnames';
 
-import { Message } from "../";
+import { Message } from '../';
 
-import "./Messages.scss";
+import './Messages.scss';
 
 const Messages = ({
   onRemoveMessage,
@@ -17,17 +17,12 @@ const Messages = ({
   previewImage,
   setPreviewImage,
   blockHeight,
-  isTyping
+  isTyping,
+  partner,
 }) => {
   return (
-    <div
-      className="chat__dialog-messages"
-      style={{ height: `calc(100% - ${blockHeight}px)` }}
-    >
-      <div
-        ref={blockRef}
-        className={classNames("messages", { "messages--loading": isLoading })}
-      >
+    <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}px)` }}>
+      <div ref={blockRef} className={classNames('messages', { 'messages--loading': isLoading })}>
         {isLoading && !user ? (
           <Spin size="large" tip="Загрузка сообщений..." />
         ) : items && !isLoading ? (
@@ -47,18 +42,9 @@ const Messages = ({
         ) : (
           <Empty description="Откройте диалог" />
         )}
-        {isTyping && (
-          <Message
-            isTyping={true}
-            user={{ fullname: "qwe", _id: "qweqw12312312" }}
-          />
-        )}
-        <Modal
-          visible={!!previewImage}
-          onCancel={() => setPreviewImage(null)}
-          footer={null}
-        >
-          <img src={previewImage} style={{ width: "100%" }} alt="Preview" />
+        {isTyping && <Message isTyping={true} user={partner} />}
+        <Modal visible={!!previewImage} onCancel={() => setPreviewImage(null)} footer={null}>
+          <img src={previewImage} style={{ width: '100%' }} alt="Preview" />
         </Modal>
       </div>
     </div>
@@ -66,7 +52,7 @@ const Messages = ({
 };
 
 Messages.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
 };
 
 export default Messages;

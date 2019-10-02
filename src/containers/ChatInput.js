@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { filesApi } from "utils/api";
-import socket from "core/socket";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { filesApi } from 'utils/api';
+import socket from 'core/socket';
 
-import { ChatInput as ChatInputBase } from "components";
+import { ChatInput as ChatInputBase } from 'components';
 
-import { messagesActions, attachmentsActions } from "redux/actions";
+import { messagesActions, attachmentsActions } from 'redux/actions';
 
 const ChatInput = props => {
   const {
@@ -14,7 +14,7 @@ const ChatInput = props => {
     fetchSendMessage,
     setAttachments,
     removeAttachment,
-    user
+    user,
   } = props;
 
   if (!currentDialogId) {
@@ -27,8 +27,8 @@ const ChatInput = props => {
     window.navigator.msGetUserMedia ||
     window.navigator.webkitGetUserMedia;
 
-  const [value, setValue] = useState("");
-  const [isRecording, setIsRecording] = useState("");
+  const [value, setValue] = useState('');
+  const [isRecording, setIsRecording] = useState('');
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [emojiPickerVisible, setShowEmojiPicker] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ const ChatInput = props => {
     };
 
     recorder.ondataavailable = e => {
-      const file = new File([e.data], "audio.webm");
+      const file = new File([e.data], 'audio.webm');
       setLoading(true);
       filesApi.upload(file).then(({ data }) => {
         sendAudio(data.file._id).then(() => {
@@ -69,7 +69,7 @@ const ChatInput = props => {
   };
 
   const onError = err => {
-    console.log("The following error occured: " + err);
+    console.log('The following error occured: ' + err);
   };
 
   const handleOutsideClick = (el, e) => {
@@ -79,33 +79,33 @@ const ChatInput = props => {
   };
 
   const addEmoji = ({ colons }) => {
-    setValue((value + " " + colons).trim());
+    setValue((value + ' ' + colons).trim());
   };
 
   const sendAudio = audioId => {
     return fetchSendMessage({
       text: null,
       dialogId: currentDialogId,
-      attachments: [audioId]
+      attachments: [audioId],
     });
   };
 
   const sendMessage = () => {
     if (isRecording) {
       mediaRecorder.stop();
-    } else if (value) {
+    } else if (value || attachments.length) {
       fetchSendMessage({
         text: value,
         dialogId: currentDialogId,
-        attachments: attachments.map(file => file.uid)
+        attachments: attachments.map(file => file.uid),
       });
-      setValue("");
+      setValue('');
       setAttachments([]);
     }
   };
 
   const handleSendMessage = e => {
-    socket.emit("DIALOGS:TYPING", { dialogId: currentDialogId, user });
+    socket.emit('DIALOGS:TYPING', { dialogId: currentDialogId, user });
     if (e.keyCode === 13) {
       sendMessage();
     }
@@ -125,8 +125,8 @@ const ChatInput = props => {
         {
           uid,
           name: file.name,
-          status: "uploading"
-        }
+          status: 'uploading',
+        },
       ];
       setAttachments(uploaded);
       // eslint-disable-next-line no-loop-func
@@ -134,10 +134,10 @@ const ChatInput = props => {
         uploaded = uploaded.map(item => {
           if (item.uid === uid) {
             return {
-              status: "done",
+              status: 'done',
               uid: data.file._id,
               name: data.file.filename,
-              url: data.file.url
+              url: data.file.url,
             };
           }
           return item;
@@ -148,10 +148,10 @@ const ChatInput = props => {
   };
 
   useEffect(() => {
-    const el = document.querySelector(".chat-input__smile-btn");
-    document.addEventListener("click", handleOutsideClick.bind(this, el));
+    const el = document.querySelector('.chat-input__smile-btn');
+    document.addEventListener('click', handleOutsideClick.bind(this, el));
     return () => {
-      document.removeEventListener("click", handleOutsideClick.bind(this, el));
+      document.removeEventListener('click', handleOutsideClick.bind(this, el));
     };
   }, []);
 
@@ -179,7 +179,7 @@ export default connect(
   ({ dialogs, attachments, user }) => ({
     dialogs,
     attachments: attachments.items,
-    user: user.data
+    user: user.data,
   }),
-  { ...messagesActions, ...attachmentsActions }
+  { ...messagesActions, ...attachmentsActions },
 )(ChatInput);

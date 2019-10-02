@@ -75,6 +75,13 @@
         text-align: center;
       }
 
+      &-action {
+        position: absolute;
+        right: 20px;
+        top: 12px;
+        transform: rotate(90deg);
+      }
+
       &-username {
         display: block;
         margin-bottom: 5px;

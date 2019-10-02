@@ -1,29 +1,28 @@
-import React from "react";
-import classNames from "classnames";
-import format from "date-fns/format";
-import isToday from "date-fns/is_today";
-import { Link } from "react-router-dom";
+import React from 'react';
+import classNames from 'classnames';
+import format from 'date-fns/format';
+import isToday from 'date-fns/is_today';
+import { Link } from 'react-router-dom';
 
-import { IconReaded, Avatar } from "../";
-import { isAudio } from "utils/helpers";
+import { IconReaded, Avatar } from '../';
 
 const getMessageTime = createdAt => {
   if (isToday(createdAt)) {
-    return format(createdAt, "HH:mm");
+    return format(createdAt, 'HH:mm');
   } else {
-    return format(createdAt, "DD.MM.YYYY");
+    return format(createdAt, 'DD.MM.YYYY');
   }
 };
 
 const renderLastMessage = (message, userId) => {
-  let text = "";
+  let text = '';
   if (!message.text && message.attachments.length) {
-    text = "прикрепленный файл";
+    text = 'прикрепленный файл';
   } else {
     text = message.text;
   }
 
-  return `${message.user._id === userId ? "Вы: " : ""}${text}`;
+  return `${message.user._id === userId ? 'Вы: ' : ''}${text}`;
 };
 
 const DialogItem = ({
@@ -35,15 +34,14 @@ const DialogItem = ({
   currentDialogId,
   partner,
   lastMessage,
-  userId
+  userId,
 }) => (
   <Link to={`/dialog/${_id}`}>
     <div
-      className={classNames("dialogs__item", {
-        "dialogs__item--online": partner.isOnline,
-        "dialogs__item--selected": currentDialogId === _id
-      })}
-    >
+      className={classNames('dialogs__item', {
+        'dialogs__item--online': partner.isOnline,
+        'dialogs__item--selected': currentDialogId === _id,
+      })}>
       <div className="dialogs__item-avatar">
         <Avatar user={partner} />
       </div>
@@ -57,7 +55,7 @@ const DialogItem = ({
           {isMe && <IconReaded isMe={isMe} isReaded={lastMessage.readed} />}
           {lastMessage.undread > 0 && (
             <div className="dialogs__item-info-bottom-count">
-              {lastMessage.undread > 9 ? "+9" : lastMessage.undread}
+              {lastMessage.undread > 9 ? '+9' : lastMessage.undread}
             </div>
           )}
         </div>

@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
-import { withRouter } from "react-router";
-import { Messages, ChatInput, Status, Sidebar } from "containers";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router';
+import { Messages, ChatInput, Status, Sidebar } from 'containers';
+import { connect } from 'react-redux';
 
-import "./Home.scss";
+import './Home.scss';
 
-import { dialogsActions } from "redux/actions";
-
-// TODO: Сделать typing... (что человек пишет в диалоге)
+import { dialogsActions } from 'redux/actions';
 
 const Home = props => {
   const { setCurrentDialogId, user } = props;
   useEffect(() => {
     const { pathname } = props.location;
-    const dialogId = pathname.split("/").pop();
+    const dialogId = pathname.split('/').pop();
     setCurrentDialogId(dialogId);
   }, [props.location.pathname]);
 
@@ -38,6 +36,6 @@ const Home = props => {
 export default withRouter(
   connect(
     ({ user }) => ({ user: user.data }),
-    dialogsActions
-  )(Home)
+    dialogsActions,
+  )(Home),
 );

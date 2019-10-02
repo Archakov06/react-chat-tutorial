@@ -1,17 +1,17 @@
-import { withFormik } from "formik";
+import { withFormik } from 'formik';
 
-import LoginForm from "../components/LoginForm";
+import LoginForm from '../components/LoginForm';
 
-import validateForm from "utils/validate";
-import { userActions } from "redux/actions";
+import validateForm from 'utils/validate';
+import { userActions } from 'redux/actions';
 
-import store from "redux/store";
+import store from 'redux/store';
 
 const LoginFormContainer = withFormik({
   enableReinitialize: true,
   mapPropsToValues: () => ({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   }),
   validate: values => {
     let errors = {};
@@ -24,8 +24,8 @@ const LoginFormContainer = withFormik({
     store
       .dispatch(userActions.fetchUserLogin(values))
       .then(({ status }) => {
-        if (status === "success") {
-          props.history.push("/");
+        if (status === 'success') {
+          props.history.push('/');
         }
         setSubmitting(false);
       })
@@ -33,7 +33,7 @@ const LoginFormContainer = withFormik({
         setSubmitting(false);
       });
   },
-  displayName: "LoginForm"
+  displayName: 'LoginForm',
 })(LoginForm);
 
 export default LoginFormContainer;

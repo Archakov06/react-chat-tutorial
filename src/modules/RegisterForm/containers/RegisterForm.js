@@ -1,19 +1,20 @@
-import { withFormik } from "formik";
+import { withFormik } from 'formik';
 
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from '../components/RegisterForm';
 
-import { userActions } from "redux/actions";
-import validateForm from "utils/validate";
+import { userActions } from 'redux/actions';
+import validateForm from 'utils/validate';
+import { openNotification } from 'utils/helpers';
 
-import store from "redux/store";
+import store from 'redux/store';
 
 export default withFormik({
   enableReinitialize: true,
   mapPropsToValues: () => ({
-    email: "",
-    fullname: "",
-    password: "",
-    password_2: ""
+    email: '',
+    fullname: '',
+    password: '',
+    password_2: '',
   }),
   validate: values => {
     let errors = {};
@@ -23,17 +24,31 @@ export default withFormik({
   handleSubmit: (values, { setSubmitting, props }) => {
     store
       .dispatch(userActions.fetchUserRegister(values))
-      .then(({ status }) => {
-        if (status === "success") {
-          setTimeout(() => {
-            props.history.push("/");
-          }, 50);
-        }
+      .then(() => {
+        props.history.push('/signup/verify');
         setSubmitting(false);
       })
-      .catch(() => {
+      .catch(err => {
+        if (
+          typeof err.response.data.message !== 'string' &&
+          err.response.data.message.errmsg.indexOf('dup') >= 0
+        ) {
+          openNotification({
+            title: 'Ошибка',
+            text: 'Аккаунт с такой почтой уже создан.',
+            type: 'error',
+            duration: 5000,
+          });
+        } else {
+          openNotification({
+            title: 'Ошибка',
+            text: 'Возникла серверная ошибка при регистрации. Повторите позже.',
+            type: 'error',
+            duration: 5000,
+          });
+        }
         setSubmitting(false);
       });
   },
-  displayName: "RegisterForm"
+  displayName: 'RegisterForm',
 })(RegisterForm);
