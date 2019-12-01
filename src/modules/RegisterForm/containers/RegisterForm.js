@@ -1,4 +1,5 @@
 import { withFormik } from 'formik';
+import get from 'lodash/get';
 
 import RegisterForm from '../components/RegisterForm';
 
@@ -14,7 +15,7 @@ export default withFormik({
     email: '',
     fullname: '',
     password: '',
-    password_2: '',
+    password_2: ''
   }),
   validate: values => {
     let errors = {};
@@ -29,26 +30,23 @@ export default withFormik({
         setSubmitting(false);
       })
       .catch(err => {
-        if (
-          typeof err.response.data.message !== 'string' &&
-          err.response.data.message.errmsg.indexOf('dup') >= 0
-        ) {
+        if (get(err, 'response.data.message.errmsg', '').indexOf('dup') >= 0) {
           openNotification({
             title: 'Ошибка',
             text: 'Аккаунт с такой почтой уже создан.',
             type: 'error',
-            duration: 5000,
+            duration: 5000
           });
         } else {
           openNotification({
             title: 'Ошибка',
             text: 'Возникла серверная ошибка при регистрации. Повторите позже.',
             type: 'error',
-            duration: 5000,
+            duration: 5000
           });
         }
         setSubmitting(false);
       });
   },
-  displayName: 'RegisterForm',
+  displayName: 'RegisterForm'
 })(RegisterForm);
